@@ -1,7 +1,7 @@
 'use server';
 
 import { createTodo } from "@/repositories/todoRepository";
-import { validateTodoTitle } from "@/utils/validateTodo";
+import { validateTodo } from "@/utils/validateTodo";
 import { revalidatePath } from "next/cache";
 
 /**
@@ -14,7 +14,7 @@ export async function createTodoUseCase(todo: {title: string}) {
     const {title} = todo;
 
     // バリデーション
-    const error = validateTodoTitle(title);
+    const error = validateTodo(title);
     if(error){
         throw new Error(error);
     }

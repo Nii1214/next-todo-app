@@ -21,13 +21,19 @@ import { validateTodo } from "./validateTodo";
 */
 
 describe("validateTodo",() => {
-    it("空文字の場合、エラー文字列を返す", () => {
+    it("正常なタイトルの場合 null を返す", () => {
+        expect(validateTodo("買い物に行く")).toBeNull();
+    });
+
+    it("空文字の場合、エラーメッセージを返す", () => {
         expect(validateTodo("")).toBe("Todoを入力してください");
     });
-    it("空白のみの場合、エラー文字列を返す", () => {
+
+    it("空白のみの場合、エラーメッセージを返す", () => {
         expect(validateTodo("   ")).toBe("Todoを入力してください");
     });
-    it("正常なタイトルの場合、nullを返す", () => {
-        expect(validateTodo("買い物に行く")).toBeNull();
+
+    it("前後に空白があっても有効な文字があれば null を返す", () => {
+        expect(validateTodo("  買い物 ")).toBeNull();
     });
 });

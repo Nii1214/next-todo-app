@@ -9,5 +9,5 @@ export type Todo = {
     // SupabaseのtimestampはJSON経由でstringとして返却されるためstring
     // （Dateに変換したい場合は表示用DTOで変換する）
     created_at: string;
-  };
+};
   

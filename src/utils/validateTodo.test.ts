@@ -36,4 +36,14 @@ describe("validateTodo",() => {
     it("前後に空白があっても有効な文字があれば null を返す", () => {
         expect(validateTodo("  買い物 ")).toBeNull();
     });
+
+    it("50文字以内の場合、エラーを返さない", () => {
+        const title = "a".repeat(50);
+        expect(validateTodo(title)).toBeNull();
+    });
+    
+    it("51文字以上の場合、エラーメッセージを返す", () => {
+        const title = "a".repeat(51);
+        expect(validateTodo(title)).toBe("Todoは50文字以内で入力してください");
+    });
 });

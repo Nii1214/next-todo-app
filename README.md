@@ -38,7 +38,7 @@
 
 ## 背景
 Todoアプリの作成で以下の能力を身につける
-- 実務向けのディレクトリ構成
+- 中規模・大規模の実務向けのディレクトリ構成
 - 簡単な機脳
 - ドメイン処理の実装
 - テストコードの実装
@@ -62,6 +62,7 @@ src
 │   └── todo
 ├── domain
 │   └── todo
+│       ├── createTodoUseCase.test.ts
 │       └── createTodoUseCase.ts
 ├── hooks
 │   └── useMessage.ts
@@ -76,7 +77,8 @@ src
 │   ├── vercel.svg
 │   └── window.svg
 ├── repositories
-│   └── todoRepository.ts
+│   ├── todoRepository.ts
+│   └── todoRepositoryImpl.ts
 ├── types
 │   └── todo.ts
 └── utils

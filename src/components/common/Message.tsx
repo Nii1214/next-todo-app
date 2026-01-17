@@ -1,9 +1,8 @@
 'use client'
 
-type Props = {
-    text: string;
-    type: "success" | "error" | "info";
-};
+import { Message as MessageType } from "@/types/message";
+
+type Props = MessageType;
 
 export default function Message({ text, type }: Props) {
     let colorClass = "";

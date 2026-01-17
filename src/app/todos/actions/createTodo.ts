@@ -3,11 +3,10 @@
 
 import { createTodoUseCase } from "@/domain/todo/createTodoUseCase";
 import { revalidatePath } from "next/cache";
+import { todoRepository } from "@/repositories/todoRepositoryImpl";
 
-export async function createTodoAction (todo: {title:string}) {
-    
-    await createTodoUseCase(todo);
-
+export async function createTodoAction(todo: { title: string }) {
+    await createTodoUseCase(todo, todoRepository);
     // 登録後に一覧を再取得させる
     revalidatePath("/todos");
 }
@@ -16,9 +15,9 @@ export async function createTodoAction (todo: {title:string}) {
 
 /**
  * 更新処理
- * @param todoId 
- * @param title 
- * @param isDone 
+ * @param todoId
+ * @param title
+ * @param isDone
  */
 // export async function updateTodoAction (
 //     todoId: number,

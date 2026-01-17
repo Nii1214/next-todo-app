@@ -1,4 +1,4 @@
-import TodoCreateForm from "./TodoCreateForm";
+import TodoCreateForm from "@/components/todo/TodoCreateForm";
 
 export default function TodoPage() {
     return (

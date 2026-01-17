@@ -1,19 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { createTodoAction } from "./actions/createTodo";
+import { createTodoAction } from "@/app/todos/actions/createTodo";
 import Message from "@/components/common/Message";
 import { useMessage } from "@/hooks/useMessage";
 
 export default function TodoCreateForm() {
 
-    const [title,setTitle] = useState("");
-    const {message, showMessage,clearMessage} = useMessage();
+    const [title, setTitle] = useState("");
+    const { message, showMessage, clearMessage } = useMessage();
 
-    async function handleCreate(){
+    async function handleCreate() {
         clearMessage();
         // trim:文字列の前後にある空白を削除する
-        if(!title.trim()) {
+        if (!title.trim()) {
             showMessage("Todo を入力してください", "info");
             return;
         }
@@ -22,15 +22,16 @@ export default function TodoCreateForm() {
             await createTodoAction({ title });
             showMessage("✅ 登録が完了しました", "success");
             setTitle("");
-        } catch (error: any) {
-            showMessage(`❌ 登録に失敗しました: ${error.message}`, "error");
+        } catch (error) {
+            const message = error instanceof Error ? error.message : "予期しないエラーが発生しました";
+            showMessage(`❌ 登録に失敗しました: ${message}`, "error");
         }
     }
 
     return (
         <div className="max-w-md mx-auto">
             <div className="flex gap-3">
-                <input 
+                <input
                     type="text"
                     name="title"
                     placeholder="Todoを入力"
@@ -41,7 +42,7 @@ export default function TodoCreateForm() {
                 <button onClick={handleCreate}>登録</button>
             </div>
             {/* 　messageがnullでない時だけ<Message>を表示する */}
-            {message && (<Message text={message.text} type={message.type}/>)}
+            {message && (<Message text={message.text} type={message.type} />)}
         </div>
     );
 }

@@ -1,4 +1,4 @@
-'use Client'
+'use client'
 
 type Props = {
     text: string;

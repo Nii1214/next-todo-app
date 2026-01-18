@@ -99,3 +99,7 @@ npx vitest run
 ```bash
 npm run test:coverage
 ```
+- Vitest UI
+```bash
+npx vitest --ui
+```

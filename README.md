@@ -95,3 +95,7 @@ tree src -I "node_modules|.git|.next"
 ```bash
 npx vitest run
 ```
+- テストカバレッジ
+```bash
+npm run test:coverage
+```

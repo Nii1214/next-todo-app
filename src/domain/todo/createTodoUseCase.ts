@@ -10,7 +10,7 @@ export async function createTodoUseCase(
   todo: { title: string },
   repository: TodoRepository
 ) {
-  const { title } = todo
+  const title = todo.title.trim();
 
   const error = validateTodo(title)
   if (error) {

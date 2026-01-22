@@ -1,5 +1,3 @@
-
-import { createClient } from "@/lib/supabase/server";
 import { Todo } from "@/types/todo";
 
 
@@ -9,22 +7,14 @@ type CreateTodoParam = Pick<Todo, "title" | "is_done">;
  * 新規登録
  * @param param 
  */
-// export async function createTodo (param: CreateTodoParam) {
-//     const supabase = await createClient();
-
-//     const { error } = await supabase    
-//         .from("todos")
-//         .insert(param);
-    
-//         if (error) {
-//             throw new Error(error.message);
-//         }
-// }
 export interface TodoRepository {
     create(input: {
       title: string
       is_done: boolean
     }): Promise<void>
+
+    findByUserId(userId: string) : Promise<Todo[]>;
+    findById(id: number) : Promise<Todo | null>;
 }
 
 /**

@@ -11,18 +11,6 @@ export const todoRepository: TodoRepository = {
       throw error;
     }
   },
-  /**
-    async =  非同期関数（awaitが使える）
-    : Promise<Todo[]> = 戻り値の型（Todo配列のPromise）
-    
-    Promise：
-      Promiseとは？
-      Promiseは「約束」という意味で、将来的に値が返ってくることを約束するオブジェクトです。処理が完了するまで時間がかかる場合（データベースへのアクセス、API呼び出しなど）に使用されます。
-      Promiseの3つの状態
-      - Pending（待機中）: 処理がまだ完了していない
-      - Fulfilled（成功）: 処理が正常に完了した
-      - Rejected（失敗）: 処理がエラーで終了した
-  */
 
   /**
    * ユーザーIDに紐づくTodoリストを取得する
@@ -60,5 +48,25 @@ export const todoRepository: TodoRepository = {
       .single()
     if (error) throw error;
     return data;
+  },
+
+  /**
+   * IDに紐づくTodoを更新する
+   * @param id  - 更新対象のID
+   * @param input - 画面からのインプット
+   * @returns - Todo配列
+   * @throws -supabaseのエラー
+   */
+  async update(id: number,input:{
+    title?: string
+    is_done?: boolean
+  }):Promise<void> {
+    const supabase = await createClient();
+    const { error } = await supabase
+      .from("todos")
+      .update(input)
+      .eq("id",id);
+    
+    if(error) throw error;
   },
 }

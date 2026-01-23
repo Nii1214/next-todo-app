@@ -13,7 +13,7 @@ export async function updateTodoUseCase (
     // 存在チェック
     const todo = await repository.findById(id);
     if(!todo) {
-        throw new Error("Todoがありません");
+        throw new Error("Todoが見つかりません");
     }
 
     // 権限チェック
@@ -23,13 +23,12 @@ export async function updateTodoUseCase (
 
     // タイトルのバリデーションチェック
     if(input.title !== undefined) {
-        const { title } = todo;
-        const error = validateTodo(title);
+        const trimmedTitle = input.title.trim();
+        const error = validateTodo(trimmedTitle);
         if(error) {
             throw new Error(error);
         }
-
-        const trimmedTitle = title.trim();
+        
         input.title = trimmedTitle;
     }
 

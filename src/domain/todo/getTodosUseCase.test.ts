@@ -2,6 +2,7 @@ import { TodoRepository } from "@/repositories/todoRepository";
 import { Todo } from "@/types/todo";
 import { describe, expect, it, vi } from "vitest";
 import { getTodosUseCase } from "./getTodosUseCase";
+import { createMockRepository } from "./__tests__/helpers/mockRepository";
 
 // テスト実行：npm run test src/domain/todo/getTodosUseCase.test.ts
 
@@ -27,12 +28,9 @@ describe("getTodosUseCase", () => {
         ];
 
         // モックRepository
-        const mockRepository: TodoRepository = {
-            // vi = Vitestのモック機能  vi.fn() = モック関数を作成
-            create: vi.fn(),
+        const mockRepository = createMockRepository({
             findByUserId: vi.fn().mockResolvedValue(mockTodos),
-            findById: vi.fn(),
-        };
+        });
 
         // 実行
         const result = await getTodosUseCase("user-123", mockRepository);
@@ -71,11 +69,9 @@ describe("getTodosUseCase", () => {
             },
         ];
 
-        const mockRepository: TodoRepository = {
-            create: vi.fn(),
+        const mockRepository = createMockRepository({
             findByUserId: vi.fn().mockResolvedValue(mockTodos),
-            findById: vi.fn(),
-        }
+        });
 
         const result = await getTodosUseCase("user-123", mockRepository);
 
@@ -87,11 +83,9 @@ describe("getTodosUseCase", () => {
     });
 
     it("Todoがない場合は空配列を返す", async () => {
-        const mockRepository: TodoRepository = {
-            create: vi.fn(),
+        const mockRepository = createMockRepository({
             findByUserId: vi.fn().mockResolvedValue([]),
-            findById: vi.fn(),
-        };
+        });
 
         const result = await getTodosUseCase("user-123", mockRepository);
 
@@ -99,41 +93,43 @@ describe("getTodosUseCase", () => {
         expect(mockRepository.findByUserId).toHaveBeenCalledWith("user-123");
     });
 
-    it("同じ作成日時の場合、元の順序を維持する(安定ソート)", async() => {
-        const mockTodos : Todo[] = [
-            { 
-                id: 1, 
+    it("同じ作成日時の場合、元の順序を維持する(安定ソート)", async () => {
+        const mockTodos: Todo[] = [
+            {
+                id: 1,
                 title: "Todo A",
                 is_done: false,
                 created_by: "user-123",
-                created_at: "2024-01-01T10:00:00Z" 
+                created_at: "2024-01-01T10:00:00Z"
             },
-            { 
-                id: 2, 
-                title: "Todo B", 
+            {
+                id: 2,
+                title: "Todo B",
                 is_done: false,
                 created_by: "user-123",
-                created_at: "2024-01-01T10:00:00Z" 
-            },  
+                created_at: "2024-01-01T10:00:00Z"
+            },
         ];
 
-        const mockRepository : TodoRepository = {
-            create: vi.fn(),
+        const mockRepository = createMockRepository({
             findByUserId: vi.fn().mockResolvedValue(mockTodos),
-            findById: vi.fn(),
-        };
+        });
 
-        const result = await getTodosUseCase("user-123" , mockRepository);
+        const result = await getTodosUseCase("user-123", mockRepository);
 
         expect(result[0].id).toBe(1);
         expect(result[1].id).toBe(2);
     });
 
-    it("リポジトリがエラーを返した場合、エラーをスローする", async => {
-        const mockRepository : TodoRepository = {
-            create: vi.fn(),
+    it("リポジトリがエラーを返した場合、エラーをスローする", async () => {
+        // ✅ ヘルパー関数を使用（エラーを返すモック）
+        const mockRepository = createMockRepository({
             findByUserId: vi.fn().mockRejectedValue(new Error("DB接続エラー")),
-            findById: vi.fn(),
-        }
+        });
+
+        // ✅ 未完成だったテストを完成させる
+        await expect(
+            getTodosUseCase("user-123", mockRepository)
+        ).rejects.toThrow("DB接続エラー");
     });
 });
